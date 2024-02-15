@@ -1,0 +1,43 @@
+.grid {
+    padding: 18px;
+  }
+  
+  .button {
+    /*color: #c3073f;*/
+    color: white;
+    border-radius: 12px;
+    padding: 20px 10px;
+    font-size: 12px;
+    background: #1a1a1d;
+    border-color: #950740;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: 1600;
+  }
+  
+  .button:hover {
+    background-color: #4e4e50;
+  }
+  
+  .button:active {
+    background-color: #4e4e50;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+  
+  .header {
+    padding: 18px;
+    text-align: center;
+    font-family: "Lucida Console", Monaco, monospace;
+    background: #1a1a1d;
+    color: #c3073f;
+  }
+  
+  .divider {
+    width: 40px;
+    height: auto;
+    display: inline-block;
+  }
+  
+  .sub {
+    color: white;
+  }
