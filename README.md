@@ -30,7 +30,7 @@ I have learned a lot from this project, and I hope you can learn something from 
 
 ## Contact
 
-If you have any question or want to contact me, you can reach me at [my email](mailto:nathvichea1@gmail.com) or [my linkedin](https://www.linkedin.com/in/nathvichea/).
+If you have any question or want to contact me, you can reach me at [Email](mailto:nathvichea1@gmail.com) or [Linkedin](https://www.linkedin.com/in/vicheanath/).
 
 ## License
 
