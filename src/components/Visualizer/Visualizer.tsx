@@ -16,15 +16,7 @@ const FINISH_NODE_COL = 40;
 const Visualizer: React.FC = () => {
   const [grid, setGrid] = useState<Item[][]>([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
-  
-  const [startNode, setStartNode] = useState<{ row: number; col: number } | null>({
-    row: START_NODE_ROW,
-    col: START_NODE_COL,
-  })
-  const [finishNode, setFinishNode] = useState<{ row: number; col: number } | null>({
-    row: FINISH_NODE_ROW,
-    col: FINISH_NODE_COL,
-  })
+
 
   useEffect(() => {
     const grid = getInitialGrid();
