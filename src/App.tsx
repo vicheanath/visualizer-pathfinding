@@ -1,12 +1,7 @@
-
-import Visualizer from './components/Visualizer/Visualizer';
+import Router from "./Router";
 
 function App() {
-  return (
-    <div className="container">
-      <Visualizer />
-    </div>
-  );
+  return <Router />;
 }
 
 export default App;

@@ -37,7 +37,7 @@ jobs:
 
       # build the react app
       - name: Build
-        run: bash -c "git remote set-url origin https://github.com/vicheanath/visualizer-pathfinding.git && npm run deploy -- -m "Deploy React app to GitHub Pages"
+        run: npm run deploy
 
       # deploy the react app to github pages
       - name: Deploy
