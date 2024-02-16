@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/vicheanath/visualizer-pathfinding/static/css/main.5bd50da1.css",
-    "main.js": "/vicheanath/visualizer-pathfinding/static/js/main.b4a7f356.js",
-    "static/js/453.e987e94e.chunk.js": "/vicheanath/visualizer-pathfinding/static/js/453.e987e94e.chunk.js",
-    "index.html": "/vicheanath/visualizer-pathfinding/index.html",
-    "main.5bd50da1.css.map": "/vicheanath/visualizer-pathfinding/static/css/main.5bd50da1.css.map",
-    "main.b4a7f356.js.map": "/vicheanath/visualizer-pathfinding/static/js/main.b4a7f356.js.map",
-    "453.e987e94e.chunk.js.map": "/vicheanath/visualizer-pathfinding/static/js/453.e987e94e.chunk.js.map"
+    "main.css": "/visualizer-pathfinding/static/css/main.5bd50da1.css",
+    "main.js": "/visualizer-pathfinding/static/js/main.e245762e.js",
+    "static/js/453.e987e94e.chunk.js": "/visualizer-pathfinding/static/js/453.e987e94e.chunk.js",
+    "index.html": "/visualizer-pathfinding/index.html",
+    "main.5bd50da1.css.map": "/visualizer-pathfinding/static/css/main.5bd50da1.css.map",
+    "main.e245762e.js.map": "/visualizer-pathfinding/static/js/main.e245762e.js.map",
+    "453.e987e94e.chunk.js.map": "/visualizer-pathfinding/static/js/453.e987e94e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5bd50da1.css",
-    "static/js/main.b4a7f356.js"
+    "static/js/main.e245762e.js"
   ]
 }
