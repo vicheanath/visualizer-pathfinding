@@ -1,43 +1,38 @@
 .grid {
-    padding: 18px;
-  }
-  
-  .button {
-    /*color: #c3073f;*/
-    color: white;
-    border-radius: 12px;
-    padding: 20px 10px;
-    font-size: 12px;
-    background: #1a1a1d;
-    border-color: #950740;
-    font-family: "Lucida Console", Monaco, monospace;
-    font-weight: 1600;
-  }
-  
-  .button:hover {
-    background-color: #4e4e50;
-  }
-  
-  .button:active {
-    background-color: #4e4e50;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
-  }
-  
-  .header {
-    padding: 18px;
-    text-align: center;
-    font-family: "Lucida Console", Monaco, monospace;
-    background: #1a1a1d;
-    color: #c3073f;
-  }
-  
-  .divider {
-    width: 40px;
-    height: auto;
-    display: inline-block;
-  }
-  
-  .sub {
-    color: white;
-  }
+  margin: 0 auto;
+  padding: 18px;
+  display: grid;
+  background: #1a1a1d;
+}
+
+.button {
+  outline: none;
+  border: none;
+  color: white;
+  background-color: #2e2e30;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  padding: 15px 32px;
+  transition-duration: 0.4s;
+
+}
+
+.button:hover {
+  background-color: #4e4e50;
+}
+
+.button:active {
+  background-color: #4e4e50;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+.header{
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  padding: 20px;
+}

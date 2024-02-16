@@ -1,168 +1,55 @@
 import React, { useState, useEffect } from "react";
-import Node, { NodeProps } from "../Node";
+import Node from "../Node";
 import styles from "./Visualizer.module.scss";
+import {
+  dijkstra,
+  getNodesInShortestPathOrder,
+} from "../../algorithims/Dijkstra";
+
+import { dfs, getNodesInShortestPathDFS } from "../../algorithims/DFS";
 
 const START_NODE_ROW = 10;
-const START_NODE_COL = 15;
+const START_NODE_COL = 10;
 const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 35;
+const FINISH_NODE_COL = 40;
 
 const Visualizer: React.FC = () => {
-  const [grid, setGrid] = useState<NodeProps[][]>([]);
+  const [grid, setGrid] = useState<Item[][]>([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
+  
+  const [startNode, setStartNode] = useState<{ row: number; col: number } | null>({
+    row: START_NODE_ROW,
+    col: START_NODE_COL,
+  })
+  const [finishNode, setFinishNode] = useState<{ row: number; col: number } | null>({
+    row: FINISH_NODE_ROW,
+    col: FINISH_NODE_COL,
+  })
+
   useEffect(() => {
     const grid = getInitialGrid();
     setGrid(grid);
   }, []);
 
   const onMouseDown = (row: number, col: number) => {
-    console.log("mouse down");
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
+    setGrid(newGrid);
+    setMouseIsPressed(true);
   };
 
   const onMouseEnter = (row: number, col: number) => {
-    console.log("mouse enter");
-  };
-
-  const onMouseUp = () => {
-    console.log("mouse up");
-  };
-
-  const getNewGridWithWallToggled = (
-    grid: NodeProps[][],
-    row: number,
-    col: number
-  ) => {
-    const newGrid = grid.slice();
-    const node = grid[row][col];
-    const newNode = {
-      ...node,
-      isWall: !node.isWall,
-    };
-    newGrid[row][col] = newNode;
-    return newGrid;
-  };
-
-  const getInitialGrid = () => {
-    const grid = [];
-    for (let row = 0; row < 20; row++) {
-      const currentRow = [];
-      for (let col = 0; col < 50; col++) {
-        currentRow.push(createNode(col, row));
-      }
-      grid.push(currentRow);
-    }
-    return grid;
-  };
-  const createNode = (col: number, row: number) => {
-    return {
-      col,
-      row,
-      isStart: row === START_NODE_ROW && col === START_NODE_COL,
-      isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-      isWall: false,
-      isVisited: false,
-      onMouseDown,
-      onMouseEnter,
-      onMouseUp,
-    };
-  };
-
-  const clearGrid = () => {
-    const newGrid = grid.slice();
-    for (const row of newGrid) {
-      for (const node of row) {
-        const newNode = {
-          ...node,
-          isVisited: false,
-          isWall: false,
-        };
-        row[node.col] = newNode;
-      }
-    }
+    if (!mouseIsPressed) return;
+    const newGrid = getNewGridWithWallToggled(grid, row, col);
     setGrid(newGrid);
   };
 
-  const animateDijkstra = () => {
-    const startNode = grid[START_NODE_ROW][START_NODE_COL];
-    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = dijkstra(
-      grid,
-      startNode,
-      finishNode
-    ) as NodeProps[];
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    animate(visitedNodesInOrder, nodesInShortestPathOrder);
-  };
-
-  const dijkstra = (
-    grid: NodeProps[][],
-    startNode: NodeProps,
-    finishNode: NodeProps
-  ) => {
-    if (!startNode || !finishNode || startNode === finishNode) {
-      return [];
-    }
-
-    const visitedNodesInOrder = [];
-    startNode.distance = 0;
-    const unvisitedNodes = getAllNodes(grid);
-    while (!!unvisitedNodes.length) {
-      sortNodesByDistance(unvisitedNodes);
-      const closestNode = unvisitedNodes.shift();
-      if (closestNode?.isWall) continue;
-      if (closestNode?.distance === Infinity) return visitedNodesInOrder;
-      closestNode!.isVisited = true;
-      visitedNodesInOrder.push(closestNode!);
-      if (closestNode === finishNode) return visitedNodesInOrder;
-      updateUnvisitedNeighbors(closestNode!, grid);
-    }
-  };
-
-  const sortNodesByDistance = (unvisitedNodes: NodeProps[]) => {
-    unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance! - nodeB.distance!);
-  };
-
-  const updateUnvisitedNeighbors = (node: NodeProps, grid: NodeProps[][]) => {
-    const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
-    for (const neighbor of unvisitedNeighbors) {
-      neighbor.distance = node.distance! + 1;
-      neighbor.previousNode = node;
-    }
-  };
-
-  const getUnvisitedNeighbors = (node: NodeProps, grid: NodeProps[][]) => {
-    const neighbors = [];
-    const { col, row } = node;
-    if (row > 0) neighbors.push(grid[row - 1][col]);
-    if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);
-    if (col > 0) neighbors.push(grid[row][col - 1]);
-    if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]);
-    return neighbors.filter((neighbor) => !neighbor.isVisited);
-  };
-
-  const getAllNodes = (grid: NodeProps[][]) => {
-    const nodes = [];
-    for (const row of grid) {
-      for (const node of row) {
-        nodes.push(node);
-      }
-    }
-    return nodes;
-  };
-
-  const getNodesInShortestPathOrder = (finishNode: NodeProps) => {
-    const nodesInShortestPathOrder = [];
-    let currentNode = finishNode as NodeProps | undefined;
-    while (currentNode !== undefined) {
-      nodesInShortestPathOrder.unshift(currentNode);
-      currentNode = currentNode.previousNode;
-    }
-    return nodesInShortestPathOrder;
+  const onMouseUp = () => {
+    setMouseIsPressed(false);
   };
 
   const animate = (
-    visitedNodesInOrder: NodeProps[],
-    nodesInShortestPathOrder: NodeProps[]
+    visitedNodesInOrder: Item[],
+    nodesInShortestPathOrder: Item[]
   ) => {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
@@ -173,51 +60,164 @@ const Visualizer: React.FC = () => {
       }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`)!.className =
-          "node node-visited";
+        if (!node.isStart && !node.isFinish) {
+          //@ts-ignore
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-visited";
+        }
       }, 10 * i);
     }
   };
 
-  const animateShortestPath = (nodesInShortestPathOrder: NodeProps[]) => {
+  const animateShortestPath = (nodesInShortestPathOrder: Item[]) => {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`)!.className =
+        //@ts-ignore
+        document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-shortest-path";
       }, 50 * i);
     }
   };
+  const visualizeDijkstra = () => {
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const vistedNodesInOrder = dijkstra(grid, startNode, finishNode) as Item[];
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    animate(vistedNodesInOrder, nodesInShortestPathOrder);
+  };
+
+  const visualizeDFS = () => {
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = dfs(grid, startNode, finishNode) as Item[];
+    const nodesInShortestPathOrder = getNodesInShortestPathDFS(finishNode);
+    animate(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
+  const clearGrid = () => {
+    const grid = getInitialGrid();
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        const node = grid[i][j];
+        if (!node.isStart && !node.isFinish && !node.isWall) {
+          //@ts-ignore
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node";
+        } else if (node.isStart) {
+          //@ts-ignore
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-start";
+        } else if (node.isFinish) {
+          //@ts-ignore
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            "node node-finish";
+        }
+      }
+    }
+    setGrid(grid);
+  };
 
   return (
     <div>
-      <button onClick={animateDijkstra}>Visualize Dijkstra's Algorithm</button>
-      <button onClick={clearGrid}>Clear Grid</button>
-      {grid.map((row, rowIdx) => {
-        return (
-          <div key={rowIdx}>
-            {row.map((node, nodeIdx) => {
-              const { row, col, isFinish, isStart, isWall, isVisited } = node;
-              return (
-                <Node
-                  key={nodeIdx}
-                  col={col}
-                  row={row}
-                  isFinish={isFinish}
-                  isStart={isStart}
-                  isWall={isWall}
-                  isVisited={isVisited}
-                  onMouseDown={node.onMouseDown}
-                  onMouseEnter={node.onMouseEnter}
-                  onMouseUp={node.onMouseUp}
-                ></Node>
-              );
-            })}
-          </div>
-        );
-      })}
+      <div className={styles.header}>
+        <button onClick={() => visualizeDijkstra()} className={styles.button}>
+          Visualize Dijkstra's Algorithm
+        </button>
+        <button onClick={() => visualizeDFS()} className={styles.button}>
+          Visualize DFS Algorithm
+        </button>
+        <button onClick={() => clearGrid()} className={styles.button}>
+          Clear Grid
+        </button>
+      </div>
+      <div className={styles.grid}>
+        {grid.map((row, rowIdx) => {
+          return (
+            <div key={rowIdx}>
+              {row.map((node, nodeIdx) => {
+                const { row, col, isFinish, isStart, isWall, isVisited } = node;
+                return (
+                  <Node
+                    key={nodeIdx}
+                    col={col}
+                    row={row}
+                    isFinish={isFinish}
+                    isStart={isStart}
+                    isWall={isWall}
+                    isVisited={isVisited}
+                    onMouseDown={onMouseDown}
+                    onMouseEnter={onMouseEnter}
+                    onMouseUp={onMouseUp}
+                  ></Node>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
 export default Visualizer;
+
+const getInitialGrid = () => {
+  const grid = [];
+  for (let row = 0; row < 21; row++) {
+    const currentRow = [];
+    for (let col = 0; col < 50; col++) {
+      currentRow.push(createNode(col, row));
+    }
+    grid.push(currentRow);
+  }
+  return grid;
+};
+
+const createNode = (col: number, row: number) => {
+  return {
+    col,
+    row,
+    isStart: row === START_NODE_ROW && col === START_NODE_COL,
+    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    distance: Infinity,
+    totalDistance: Infinity,
+    heuristic: Infinity,
+    isVisited: false,
+    isWall: false,
+    previousNode: null,
+  };
+};
+
+const getNewGridWithWallToggled = (
+  grid: Grid,
+  row: number,
+  col: number
+) => {
+  const newGrid = grid.slice();
+  const node = newGrid[row][col];
+  if (node.isStart || node.isFinish) {
+    return grid;
+  }
+  const newNode = {
+    ...node,
+    isWall: !node.isWall,
+  };
+  newGrid[row][col] = newNode;
+  return newGrid;
+};
+
+export type Grid = Item[][];
+
+export type Item = {
+  col: number;
+  row: number;
+  isStart: boolean;
+  isFinish: boolean;
+  distance: number;
+  totalDistance: number;
+  heuristic: number;
+  isVisited: boolean;
+  isWall: boolean;
+  previousNode: Item | null;
+};
