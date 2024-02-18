@@ -17,7 +17,6 @@ const Visualizer: React.FC = () => {
   const [grid, setGrid] = useState<Item[][]>([]);
   const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
-
   useEffect(() => {
     const grid = getInitialGrid();
     setGrid(grid);
@@ -85,7 +84,7 @@ const Visualizer: React.FC = () => {
     const visitedNodesInOrder = dfs(grid, startNode, finishNode) as Item[];
     const nodesInShortestPathOrder = getNodesInShortestPathDFS(finishNode);
     animate(visitedNodesInOrder, nodesInShortestPathOrder);
-  }
+  };
 
   const clearGrid = () => {
     const grid = getInitialGrid();
@@ -181,11 +180,7 @@ const createNode = (col: number, row: number) => {
   };
 };
 
-const getNewGridWithWallToggled = (
-  grid: Grid,
-  row: number,
-  col: number
-) => {
+const getNewGridWithWallToggled = (grid: Grid, row: number, col: number) => {
   const newGrid = grid.slice();
   const node = newGrid[row][col];
   if (node.isStart || node.isFinish) {

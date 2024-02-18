@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.module.scss";
-import { PiGraph,PiSortAscendingBold } from "react-icons/pi";
+import { PiGraph, PiSortAscendingBold } from "react-icons/pi";
 import { IoSearch } from "react-icons/io5";
-
-
 
 const navItems = [
   {

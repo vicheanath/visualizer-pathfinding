@@ -1,12 +1,12 @@
-import React from 'react'
-import SortVisualizer from '../components/SortVisualizer/SortVisualizer'
+import React from "react";
+import SortVisualizer from "../components/SortVisualizer/SortVisualizer";
 
 const Sort = () => {
   return (
     <div>
-        <SortVisualizer />
+      <SortVisualizer />
     </div>
-  )
-}
+  );
+};
 
-export default Sort
+export default Sort;

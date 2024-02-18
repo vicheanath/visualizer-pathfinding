@@ -1,7 +1,7 @@
 import { FC } from "react";
-import styles from  "./Node.module.scss";
+import styles from "./Node.module.scss";
 
-export interface NodeProps{
+export interface NodeProps {
   col: number;
   row: number;
   isStart: boolean;
@@ -22,26 +22,26 @@ const Node: FC<NodeProps> = ({
   isVisited,
   onMouseDown,
   onMouseEnter,
-  onMouseUp
+  onMouseUp,
 }) => {
   const extraClassName = isFinish
-      ? styles.nodeFinish
-      : isStart
+    ? styles.nodeFinish
+    : isStart
       ? styles.nodeStart
       : isVisited
-      ? styles.nodeVisited
-      : isWall
-      ? styles.nodeWall
-      : "";
+        ? styles.nodeVisited
+        : isWall
+          ? styles.nodeWall
+          : "";
 
-    return (
-      <div
-        id={`node-${row}-${col}`}
-        className={`${styles.node} ${extraClassName}`}
-        onMouseDown={() => onMouseDown(row, col)}
-        onMouseEnter={() => onMouseEnter(row, col)}
-        onMouseUp={() => onMouseUp()}
-      ></div>
-    );
+  return (
+    <div
+      id={`node-${row}-${col}`}
+      className={`${styles.node} ${extraClassName}`}
+      onMouseDown={() => onMouseDown(row, col)}
+      onMouseEnter={() => onMouseEnter(row, col)}
+      onMouseUp={() => onMouseUp()}
+    ></div>
+  );
 };
 export default Node;

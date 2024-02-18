@@ -7,7 +7,7 @@ import Sort from "./pages/Sort";
 const Router: FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} >
+      <Route path="/" element={<Layout />}>
         <Route path="graph" element={<Graph />} />
         <Route path="sort" element={<Sort />} />
       </Route>

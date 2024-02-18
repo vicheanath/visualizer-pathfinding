@@ -1,12 +1,12 @@
-import React from 'react'
-import Visualizer from '../components/Visualizer/Visualizer'
+import React from "react";
+import Visualizer from "../components/Visualizer/Visualizer";
 
 const Graph = () => {
   return (
     <div>
-        <Visualizer />
+      <Visualizer />
     </div>
-  )
-}
+  );
+};
 
-export default Graph
+export default Graph;
